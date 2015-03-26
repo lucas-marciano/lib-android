@@ -1,0 +1,38 @@
+package br.exemplojsonparser;
+
+import java.util.ArrayList;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+
+public class MainActivity extends Activity {
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_main);
+	}
+	
+	
+	@SuppressLint("NewApi")
+	private void callServer(final String atributo, final String data){
+		new Thread(){
+			public void run(){
+				String answer = HttpConnection.getSetDataWeb("URL DE CONEXAO COM O SERVIDOR", atributo, data);
+				
+				//Teste de resposta
+				Log.i("Script", "ANSWER: "+answer);
+				
+				if(data.isEmpty()){
+					degenerateJSON(answer);
+				}
+			}
+		}.start();
+	}
+	
+}
